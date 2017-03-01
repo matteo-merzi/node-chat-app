@@ -15,12 +15,19 @@ var users = new Users();
 
 app.use(express.static(publicPath));
 
+app.get('/rooms', (req, res) => {
+    res.send(users.getRoomsList());
+});
+
 io.on('connection', (socket) => {
     console.log('New user connected');
 
     socket.on('join', (params, callback) => {
         if (!isRealString(params.name) || !isRealString(params.room)) {
             return callback('Name and room name are required.');
+        }
+        if (users.getUsersList(params.room).indexOf(params.name) !== -1) {
+            return callback('Name already in use.');
         }
 
         socket.join(params.room);

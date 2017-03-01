@@ -73,4 +73,10 @@ describe('Users', function() {
 
         expect(userList).toEqual(['Kristen']);
     });
+
+    it('should return existing rooms list', function() {
+        var rooms = users.getRoomsList();
+
+        expect(rooms.length).toBe(2);
+    });
 });
